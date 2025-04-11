@@ -1,28 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="light-mode">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Care Assistant</title>
+    <title>SmartCare Assistant</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
     <style>
         :root {
-            --primary-color: #2C7FB8;
-            --secondary-color: #7FDBFF;
-            --accent-color: #01FF70;
-            --gradient-start: #2C7FB8;
-            --gradient-end: #00A6ED;
-            --critical-color: #dc3545;
+            /* Light mode */
+            --primary-color-light: #2C7FB8;
+            --secondary-color-light: #7FDBFF;
+            --accent-color-light: #01FF70;
+            --gradient-start-light: #2C7FB8;
+            --gradient-end-light: #00A6ED;
+            --critical-color-light: #dc3545;
+            --bg-color-light: #f5f8fa;
+            --card-bg-light: rgba(255, 255, 255, 0.95);
+            --text-color-light: #333;
+            --border-color-light: rgba(44, 127, 184, 0.2);
+            --muted-text-light: #6c757d;
+
+            /* Dark mode */
+            --primary-color-dark: #3498db;
+            --secondary-color-dark: #2980b9;
+            --accent-color-dark: #2ecc71;
+            --gradient-start-dark: #2c3e50;
+            --gradient-end-dark: #34495e;
+            --critical-color-dark: #e74c3c;
+            --bg-color-dark: #121212;
+            --card-bg-dark: rgba(30, 30, 30, 0.95);
+            --text-color-dark: #f1f1f1;
+            --border-color-dark: rgba(80, 120, 150, 0.2);
+            --muted-text-dark: #aaa;
+        }
+        
+        .light-mode {
+            --primary-color: var(--primary-color-light);
+            --secondary-color: var(--secondary-color-light);
+            --accent-color: var(--accent-color-light);
+            --gradient-start: var(--gradient-start-light);
+            --gradient-end: var(--gradient-end-light);
+            --critical-color: var(--critical-color-light);
+            --bg-color: var(--bg-color-light);
+            --card-bg: var(--card-bg-light);
+            --text-color: var(--text-color-light);
+            --border-color: var(--border-color-light);
+            --muted-text: var(--muted-text-light);
+        }
+        
+        .dark-mode {
+            --primary-color: var(--primary-color-dark);
+            --secondary-color: var(--secondary-color-dark);
+            --accent-color: var(--accent-color-dark);
+            --gradient-start: var(--gradient-start-dark);
+            --gradient-end: var(--gradient-end-dark);
+            --critical-color: var(--critical-color-dark);
+            --bg-color: var(--bg-color-dark);
+            --card-bg: var(--card-bg-dark);
+            --text-color: var(--text-color-dark);
+            --border-color: var(--border-color-dark);
+            --muted-text: var(--muted-text-dark);
         }
         
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f5f8fa;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode body {
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(44, 62, 80, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(52, 73, 94, 0.05) 0%, transparent 20%);
+        }
+        
+        .light-mode body {
             background-image: 
                 radial-gradient(circle at 10% 20%, rgba(44, 127, 184, 0.05) 0%, transparent 20%),
                 radial-gradient(circle at 90% 80%, rgba(0, 166, 237, 0.05) 0%, transparent 20%);
-            background-attachment: fixed;
         }
 
         .navbar {
@@ -36,9 +94,10 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
             border: none;
-            background: rgba(255, 255, 255, 0.95);
+            background: var(--card-bg);
             backdrop-filter: blur(10px);
             animation: fadeIn 0.5s ease-out;
+            color: var(--text-color);
         }
 
         .card:hover {
@@ -110,7 +169,7 @@
         }
 
         .record-item {
-            background: rgba(255, 255, 255, 0.95);
+            background: var(--card-bg);
             padding: 15px;
             margin-bottom: 10px;
             border-radius: 12px;
@@ -126,7 +185,7 @@
         }
 
         .analytics-card {
-            background: rgba(255, 255, 255, 0.95);
+            background: var(--card-bg);
             padding: 20px;
             margin-bottom: 20px;
             border-radius: 15px;
@@ -155,9 +214,11 @@
 
         .form-control {
             border-radius: 10px;
-            border: 1px solid rgba(44, 127, 184, 0.2);
+            border: 1px solid var(--border-color);
             padding: 12px;
             transition: all 0.3s ease;
+            background-color: var(--bg-color);
+            color: var(--text-color);
         }
 
         .form-control:focus {
@@ -206,6 +267,7 @@
             position: relative;
             display: inline-block;
             margin-bottom: 1.5rem;
+            color: var(--text-color);
         }
 
         h3::after, h5::after {
@@ -237,77 +299,216 @@
         .critical-item {
             border-left: 4px solid var(--critical-color);
         }
+        
+        .theme-toggle {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            transform: rotate(45deg);
+        }
+        
+        .list-group-item {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border-color: var(--border-color);
+        }
+        
+        .quick-select-btn {
+            margin: 5px;
+            font-size: 0.9rem;
+            padding: 5px 10px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            transition: all 0.2s ease;
+        }
+        
+        .quick-select-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .handoff-card {
+            background: var(--card-bg);
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .handoff-date {
+            font-size: 0.9rem;
+            color: var(--muted-text);
+        }
+        
+        .handoff-tabs .nav-link {
+            color: var(--text-color);
+            background-color: transparent;
+            border: none;
+            padding: 10px 15px;
+            margin-right: 10px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .handoff-tabs .nav-link.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .severity-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+        
+        .severity-high {
+            background-color: var(--critical-color);
+        }
+        
+        .severity-medium {
+            background-color: #ffc107;
+        }
+        
+        .severity-low {
+            background-color: #28a745;
+        }
+        
+        .common-diagnosis-btn {
+            display: inline-block;
+            margin: 5px;
+            padding: 8px 12px;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-color);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .common-diagnosis-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .template-dropdown {
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin-bottom: 10px;
+        }
+        
+        .patient-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .patient-card {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            background-color: var(--card-bg);
+            border-left: 4px solid var(--primary-color);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .patient-card:hover {
+            transform: translateX(5px);
+        }
+        
+        .patient-card.critical {
+            border-left: 4px solid var(--critical-color);
+        }
+        
+        .patient-info {
+            flex-grow: 1;
+        }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">SmartCare Assistant</a>
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-heartbeat me-2"></i>SmartCare Assistant
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" title="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#patientForm">Patients</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#recordsList">Records</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#ageChart">Analytics</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#patientSection"><i class="fas fa-user-injured me-1"></i> Patients</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#handoffSection"><i class="fas fa-clipboard me-1"></i> Handoff</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#analyticsSection"><i class="fas fa-chart-line me-1"></i> Analytics</a></li>
+                    <li class="nav-item">
+                        <button id="themeToggle" class="theme-toggle nav-link" title="Toggle Dark Mode">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
 
     <div class="container mt-4">
+        <!-- Dashboard Overview -->
+        <div class="row mb-4">
+            <div class="col-md-9">
+                <h3 id="patientSection"><i class="fas fa-hospital-user me-2"></i>Doctor Dashboard</h3>
+                <p class="text-muted">Welcome back, Dr. Smith. You have <span id="pendingPatients" class="fw-bold">0</span> patients to see today.</p>
+            </div>
+            <div class="col-md-3 text-end">
+                <div class="d-flex justify-content-end align-items-center">
+                    <span class="me-2">Today:</span>
+                    <span id="currentDate" class="fw-bold"></span>
+                </div>
+            </div>
+        </div>
+        
         <div class="row">
-            <div class="col-md-8">
+            <!-- Left Section: Patient Queue & Information -->
+            <div class="col-lg-3">
                 <div class="card mb-4">
                     <div class="card-body">
-                        <h5 class="card-title">Patient Information</h5>
-                        <form id="patientForm">
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <input type="text" class="form-control" id="patientName" placeholder="Patient Name" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <input type="number" class="form-control" id="patientAge" placeholder="Age" required>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3 mb-3">
-                                    <input type="number" class="form-control" id="bp" placeholder="Blood Pressure" required>
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <input type="number" class="form-control" id="spo2" placeholder="SpO2" required>
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <input type="number" class="form-control" id="pulse" placeholder="Pulse" required>
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <input type="number" class="form-control" id="temperature" placeholder="Temperature" required>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <textarea class="form-control" id="symptoms" rows="3" placeholder="Symptoms" required></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <textarea class="form-control" id="prescription" rows="3" placeholder="Prescription" required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Save Record</button>
-                            <button type="button" class="btn btn-secondary" onclick="startVoiceInput()">Voice Input</button>
-                        </form>
+                        <h5 class="card-title"><i class="fas fa-list me-2"></i>Patient Queue</h5>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                            <input type="text" class="form-control" placeholder="Search patients..." id="patientSearch">
+                        </div>
+                        <div id="patientQueue" class="mt-3">
+                            <!-- Patient queue will be populated dynamically -->
+                        </div>
                     </div>
                 </div>
-
-                <!-- Records List -->
-                <div id="recordsList"></div>
-            </div>
-            <div class="col-md-4">
+                
                 <div class="card vital-card mb-4">
                     <div class="card-body">
-                        <h5 class="card-title">Quick Stats</h5>
+                        <h5 class="card-title"><i class="fas fa-tachometer-alt me-2"></i>Daily Stats</h5>
                         <div id="patientStats">
                             <p>Total Patients Today: <span id="totalPatients">0</span></p>
                             <p>Critical Cases: <span id="criticalCases">0</span></p>
                             <p>Pending Follow-ups: <span id="pendingFollowups">0</span></p>
+                            <p>Avg. Consultation Time: <span id="avgConsultTime">12 min</span></p>
                         </div>
                     </div>
                 </div>
@@ -315,7 +516,7 @@
                 <!-- Critical Thresholds Card -->
                 <div class="card mb-4">
                     <div class="card-body">
-                        <h5 class="card-title">Critical Thresholds</h5>
+                        <h5 class="card-title"><i class="fas fa-exclamation-triangle me-2"></i>Critical Thresholds</h5>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">Temperature: > 39°C</li>
                             <li class="list-group-item">Blood Pressure: > 140</li>
@@ -325,303 +526,1140 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Middle Section: Patient Form & Records -->
+            <div class="col-lg-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="card-title mb-0"><i class="fas fa-user-plus me-2"></i>Patient Information</h5>
+                            <div>
+                                <select class="template-dropdown" id="templateSelector">
+                                    <option value="">Select Template</option>
+                                    <option value="general">General Check-up</option>
+                                    <option value="cardiac">Cardiac Assessment</option>
+                                    <option value="respiratory">Respiratory Assessment</option>
+                                    <option value="pediatric">Pediatric Visit</option>
+                                </select>
+                            </div>
+                        </div>
+                        <form id="patientForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <input type="text" class="form-control" id="patientName" placeholder="Patient Name" required>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <input type="number" class="form-control" id="patientAge" placeholder="Age" required>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <select class="form-control" id="patientGender">
+                                        <option value="">Gender</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <strong>Vital Signs</strong>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-3 mb-3">
+                                            <label for="bp" class="form-label small">Blood Pressure</label>
+                                            <input type="text" class="form-control" id="bp" placeholder="120/80" required>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="spo2" class="form-label small">SpO2 (%)</label>
+                                            <input type="number" class="form-control" id="spo2" placeholder="98" required>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="pulse" class="form-label small">Pulse (bpm)</label>
+                                            <input type="number" class="form-control" id="pulse" placeholder="72" required>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="temperature" class="form-label small">Temp (°C)</label>
+                                            <input type="number" step="0.1" class="form-control" id="temperature" placeholder="37.0" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="symptoms" class="form-label">Symptoms</label>
+                                <div class="mb-2">
+                                    <div id="commonSymptoms" class="d-flex flex-wrap">
+                                        <button type="button" class="quick-select-btn" data-value="Fever">Fever</button>
+                                        <button type="button" class="quick-select-btn" data-value="Cough">Cough</button>
+                                        <button type="button" class="quick-select-btn" data-value="Headache">Headache</button>
+                                        <button type="button" class="quick-select-btn" data-value="Fatigue">Fatigue</button>
+                                        <button type="button" class="quick-select-btn" data-value="Sore throat">Sore throat</button>
+                                        <button type="button" class="quick-select-btn" data-value="Shortness of breath">SOB</button>
+                                        <button type="button" class="quick-select-btn" data-value="Nausea">Nausea</button>
+                                        <button type="button" class="quick-select-btn" data-value="Chest pain">Chest pain</button>
+                                    </div>
+                                </div>
+                                <textarea class="form-control" id="symptoms" rows="2" placeholder="Describe symptoms"></textarea>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="diagnosis" class="form-label">Diagnosis</label>
+                                <div class="mb-2">
+                                    <div id="commonDiagnoses" class="d-flex flex-wrap">
+                                        <span class="common-diagnosis-btn" data-value="Upper Respiratory Infection">URI</span>
+                                        <span class="common-diagnosis-btn" data-value="Hypertension">HTN</span>
+                                        <span class="common-diagnosis-btn" data-value="Type 2 Diabetes">T2DM</span>
+                                        <span class="common-diagnosis-btn" data-value="Gastroenteritis">Gastroenteritis</span>
+                                        <span class="common-diagnosis-btn" data-value="Urinary Tract Infection">UTI</span>
+                                    </div>
+                                </div>
+                                <textarea class="form-control" id="diagnosis" rows="2" placeholder="Enter diagnosis"></textarea>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="prescription" class="form-label">Prescription & Plan</label>
+                                <textarea class="form-control" id="prescription" rows="3" placeholder="Enter medications and treatment plan"></textarea>
+                            </div>
+                            
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="followupNeeded">
+                                <label class="form-check-label" for="followupNeeded">
+                                    Requires follow-up
+                                </label>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        <i class="fas fa-save me-2"></i>Save Record
+                                    </button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button type="button" class="btn btn-secondary w-100" onclick="startVoiceInput()">
+                                        <i class="fas fa-microphone me-2"></i>Voice Input
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Records List -->
+                <div id="recordsList"></div>
+            </div>
+            
+            <!-- Right Section: Handoff Reports -->
+            <div class="col-lg-3">
+                <div class="card mb-4" id="handoffSection">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-clipboard-list me-2"></i>Handoff Sheet</h5>
+                        <p class="handoff-date" id="handoffDate"></p>
+                        
+                        <ul class="nav nav-tabs handoff-tabs mb-3" id="handoffTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pending-tab-pane" type="button" role="tab">Pending</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed-tab-pane" type="button" role="tab">Completed</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="followup-tab" data-bs-toggle="tab" data-bs-target="#followup-tab-pane" type="button" role="tab">Follow-ups</button>
+                            </li>
+                        </ul>
+                        
+                        <div class="tab-content" id="handoffTabContent">
+                            <div class="tab-pane fade show active" id="pending-tab-pane" role="tabpanel" aria-labelledby="pending-tab" tabindex="0">
+                                <div id="pendingHandoffs" class="handoff-list">
+                                    <!-- Will be populated dynamically -->
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="completed-tab-pane" role="tabpanel" aria-labelledby="completed-tab" tabindex="0">
+                                <div id="completedHandoffs" class="handoff-list">
+                                    <!-- Will be populated dynamically -->
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="followup-tab-pane" role="tabpanel" aria-labelledby="followup-tab" tabindex="0">
+                                <div id="followupHandoffs" class="handoff-list">
+                                    <!-- Will be populated dynamically -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-3">
+                            <button class="btn btn-primary btn-sm" onclick="generateHandoffReport()">
+                                <i class="fas fa-file-export me-1"></i> Export Report
+                            </button>
+                            <button class="btn btn-secondary btn-sm ms-2" onclick="clearHandoffEntries()">
+                                <i class="fas fa-broom me-1"></i> Clear All
+                            </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                            
+                                            <!-- Critical Alerts Card -->
+                                            <div class="card mb-4">
+                                                <div class="card-body">
+                                                    <h5 class="card-title"><i class="fas fa-bell me-2"></i>Critical Alerts</h5>
+                                                    <div id="criticalAlerts" class="critical-vitals">
+                                                        <!-- Will be populated dynamically -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Analytics Summary Card -->
+                                            <div class="card mb-4" id="analyticsSection">
+                                                <div class="card-body">
+                                                    <h5 class="card-title"><i class="fas fa-chart-pie me-2"></i>Quick Analytics</h5>
+                                                    <div class="row mt-3">
+                                                        <div class="col-12 mb-3">
+                                                            <label class="form-label small">Time Period</label>
+                                                            <select class="form-control" id="analyticsPeriod">
+                                                                <option value="day">Today</option>
+                                                                <option value="week">This Week</option>
+                                                                <option value="month">This Month</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="analytics-data mt-2">
+                                                        <div class="d-flex justify-content-between mb-2">
+                                                            <span>Top Diagnosis:</span>
+                                                            <span id="topDiagnosis">URI (32%)</span>
+                                                        </div>
+                                                        <div class="d-flex justify-content-between mb-2">
+                                                            <span>Avg. Vitals Review:</span>
+                                                            <span id="avgVitalsReview">2.4 min</span>
+                                                        </div>
+                                                        <div class="d-flex justify-content-between mb-2">
+                                                            <span>Patient Satisfaction:</span>
+                                                            <span id="patientSatisfaction">4.8/5</span>
+                                                        </div>
+                                                    </div>
+                                                    <button class="btn btn-primary btn-sm mt-3 w-100" onclick="openDetailedAnalytics()">
+                                                        <i class="fas fa-chart-line me-1"></i> Full Analytics
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- JavaScript Libraries -->
+                                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+                                <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+                                
+                                <script>
+                                    // Theme Toggle Functionality
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        // Check for saved theme preference or use default
+                                        const savedTheme = localStorage.getItem('theme') || 'light-mode';
+                                        document.documentElement.className = savedTheme;
+                                        
+                                        // Update theme toggle button icon
+                                        updateThemeToggleIcon();
+                                        
+                                        // Set current date
+                                        const now = new Date();
+                                        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                                        document.getElementById('currentDate').innerText = now.toLocaleDateString('en-US', options);
+                                        document.getElementById('handoffDate').innerText = now.toLocaleDateString('en-US', options);
+                                        
+                                        // Initialize patient data
+                                        initializePatientData();
+                                        
+                                        // Initialize handoff tabs
+                                        populateHandoffLists();
+                                        
+                                        // Initialize analytics data
+                                        updateAnalyticsData();
+                                        
+                                        // Event Listeners
+                                        document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+                                        document.getElementById('patientForm').addEventListener('submit', handlePatientFormSubmit);
+                                        
+                                        // Quick select symptom buttons
+                                        document.querySelectorAll('.quick-select-btn').forEach(btn => {
+                                            btn.addEventListener('click', function() {
+                                                const symptomValue = this.getAttribute('data-value');
+                                                const symptomsTextarea = document.getElementById('symptoms');
+                                                
+                                                if (symptomsTextarea.value.includes(symptomValue)) {
+                                                    return; // Already added
+                                                }
+                                                
+                                                if (symptomsTextarea.value.trim() === '') {
+                                                    symptomsTextarea.value = symptomValue;
+                                                } else {
+                                                    symptomsTextarea.value += ', ' + symptomValue;
+                                                }
+                                            });
+                                        });
+                                        
+                                        // Common diagnosis buttons
+                                        document.querySelectorAll('.common-diagnosis-btn').forEach(btn => {
+                                            btn.addEventListener('click', function() {
+                                                const diagnosisValue = this.getAttribute('data-value');
+                                                const diagnosisTextarea = document.getElementById('diagnosis');
+                                                
+                                                if (diagnosisTextarea.value.includes(diagnosisValue)) {
+                                                    return; // Already added
+                                                }
+                                                
+                                                if (diagnosisTextarea.value.trim() === '') {
+                                                    diagnosisTextarea.value = diagnosisValue;
+                                                } else {
+                                                    diagnosisTextarea.value += ', ' + diagnosisValue;
+                                                }
+                                            });
+                                        });
+                                        
+                                        // Template selector
+                                        document.getElementById('templateSelector').addEventListener('change', function() {
+                                            applyTemplate(this.value);
+                                        });
+                                        
+                                        // Patient search
+                                        document.getElementById('patientSearch').addEventListener('input', function() {
+                                            filterPatients(this.value);
+                                        });
+                                        
+                                        // Analytics period selector
+                                        document.getElementById('analyticsPeriod').addEventListener('change', updateAnalyticsData);
+                                    });
+                                    
+                                    // Toggle between light and dark mode
+                                    function toggleTheme() {
+                                        const currentTheme = document.documentElement.className;
+                                        const newTheme = currentTheme === 'light-mode' ? 'dark-mode' : 'light-mode';
+                                        
+                                        document.documentElement.className = newTheme;
+                                        localStorage.setItem('theme', newTheme);
+                                        
+                                        updateThemeToggleIcon();
+                                    }
+                                    
+                                    // Update theme toggle icon based on current theme
+                                    function updateThemeToggleIcon() {
+                                        const themeToggleBtn = document.getElementById('themeToggle');
+                                        const currentTheme = document.documentElement.className;
+                                        
+                                        if (currentTheme === 'dark-mode') {
+                                            themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+                                        } else {
+                                            themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
+                                        }
+                                    }
+                                    
+                                    // Sample patient data
+                                    const patientData = [];
+                                    
+                                    // Initialize sample patient data
+                                    function initializePatientData() {
+                                        // Sample patient data
+                                        const samplePatients = [
+                                            { 
+                                                id: 1, 
+                                                name: 'John Davis', 
+                                                age: 42, 
+                                                gender: 'male', 
+                                                vital_signs: { bp: '142/90', spo2: 97, pulse: 82, temperature: 37.2 },
+                                                symptoms: 'Headache, dizziness, fatigue',
+                                                diagnosis: 'Hypertension',
+                                                prescription: 'Lisinopril 10mg daily, reduce sodium intake, follow-up in 2 weeks',
+                                                followupNeeded: true,
+                                                isCritical: true,
+                                                status: 'pending'
+                                            },
+                                            { 
+                                                id: 2, 
+                                                name: 'Maria Garcia', 
+                                                age: 28, 
+                                                gender: 'female', 
+                                                vital_signs: { bp: '118/76', spo2: 99, pulse: 68, temperature: 38.8 },
+                                                symptoms: 'Fever, cough, sore throat',
+                                                diagnosis: 'Upper Respiratory Infection',
+                                                prescription: 'Acetaminophen for fever, plenty of fluids, rest',
+                                                followupNeeded: false,
+                                                isCritical: true,
+                                                status: 'pending'
+                                            },
+                                            { 
+                                                id: 3, 
+                                                name: 'Robert Wilson', 
+                                                age: 65, 
+                                                gender: 'male', 
+                                                vital_signs: { bp: '135/85', spo2: 94, pulse: 88, temperature: 37.0 },
+                                                symptoms: 'Shortness of breath, chest discomfort',
+                                                diagnosis: 'COPD exacerbation',
+                                                prescription: 'Albuterol inhaler, prednisone 40mg daily for 5 days',
+                                                followupNeeded: true,
+                                                isCritical: true,
+                                                status: 'pending'
+                                            },
+                                            { 
+                                                id: 4, 
+                                                name: 'Emily Johnson', 
+                                                age: 34, 
+                                                gender: 'female', 
+                                                vital_signs: { bp: '120/80', spo2: 98, pulse: 72, temperature: 37.1 },
+                                                symptoms: 'Abdominal pain, nausea, vomiting',
+                                                diagnosis: 'Gastroenteritis',
+                                                prescription: 'Ondansetron for nausea, clear liquid diet, rehydration',
+                                                followupNeeded: false,
+                                                isCritical: false,
+                                                status: 'pending'
+                                            },
+                                            { 
+                                                id: 5, 
+                                                name: 'David Lee', 
+                                                age: 7, 
+                                                gender: 'male', 
+                                                vital_signs: { bp: '105/70', spo2: 97, pulse: 100, temperature: 39.2 },
+                                                symptoms: 'Fever, ear pain, irritability',
+                                                diagnosis: 'Acute Otitis Media',
+                                                prescription: 'Amoxicillin 250mg TID for 10 days, acetaminophen for pain',
+                                                followupNeeded: true,
+                                                isCritical: true,
+                                                status: 'pending'
+                                            }
+                                        ];
+                                        
+                                        // Add sample data to patientData array
+                                        patientData.push(...samplePatients);
+                                        
+                                        // Update patient queue
+                                        updatePatientQueue();
+                                        
+                                        // Update patient stats
+                                        updatePatientStats();
+                                        
+                                        // Update critical alerts
+                                        updateCriticalAlerts();
+                                    }
+                                    
+                                    // Update the patient queue display
+                                    function updatePatientQueue() {
+                                        const queueContainer = document.getElementById('patientQueue');
+                                        queueContainer.innerHTML = '';
+                                        
+                                        const pendingPatients = patientData.filter(patient => patient.status === 'pending');
+                                        
+                                        pendingPatients.forEach(patient => {
+                                            const patientCard = document.createElement('div');
+                                            patientCard.className = `patient-card ${patient.isCritical ? 'critical' : ''}`;
+                                            patientCard.setAttribute('data-id', patient.id);
+                                            patientCard.innerHTML = `
+                                                <div class="patient-avatar">${patient.name.charAt(0)}</div>
+                                                <div class="patient-info">
+                                                    <div class="d-flex justify-content-between">
+                                                        <strong>${patient.name}</strong>
+                                                        ${patient.isCritical ? '<span class="critical-badge">Critical</span>' : ''}
+                                                    </div>
+                                                    <small>${patient.age} y.o. ${patient.gender}</small>
+                                                </div>
+                                            `;
+                                            patientCard.addEventListener('click', () => loadPatientData(patient.id));
+                                            queueContainer.appendChild(patientCard);
+                                        });
+                                        
+                                        // Update pending patients count
+                                        document.getElementById('pendingPatients').textContent = pendingPatients.length;
+                                    }
+                                    
+                                    // Load patient data into the form
+                                    function loadPatientData(patientId) {
+                                        const patient = patientData.find(p => p.id === patientId);
+                                        if (!patient) return;
+                                        
+                                        document.getElementById('patientName').value = patient.name;
+                                        document.getElementById('patientAge').value = patient.age;
+                                        document.getElementById('patientGender').value = patient.gender;
+                                        document.getElementById('bp').value = patient.vital_signs.bp;
+                                        document.getElementById('spo2').value = patient.vital_signs.spo2;
+                                        document.getElementById('pulse').value = patient.vital_signs.pulse;
+                                        document.getElementById('temperature').value = patient.vital_signs.temperature;
+                                        document.getElementById('symptoms').value = patient.symptoms;
+                                        document.getElementById('diagnosis').value = patient.diagnosis;
+                                        document.getElementById('prescription').value = patient.prescription;
+                                        document.getElementById('followupNeeded').checked = patient.followupNeeded;
+                                    }
+                                    
+                                    // Update patient statistics
+                                    function updatePatientStats() {
+                                        document.getElementById('totalPatients').textContent = patientData.length;
+                                        document.getElementById('criticalCases').textContent = patientData.filter(p => p.isCritical).length;
+                                        document.getElementById('pendingFollowups').textContent = patientData.filter(p => p.followupNeeded).length;
+                                    }
+                                    
+                                    // Update critical alerts
+                                    function updateCriticalAlerts() {
+                                        const alertsContainer = document.getElementById('criticalAlerts');
+                                        alertsContainer.innerHTML = '';
+                                        
+                                        const criticalPatients = patientData.filter(p => p.isCritical);
+                                        
+                                        if (criticalPatients.length === 0) {
+                                            alertsContainer.innerHTML = '<p class="text-muted">No critical alerts at this time.</p>';
+                                            return;
+                                        }
+                                        
+                                        criticalPatients.forEach(patient => {
+                                            const alertItem = document.createElement('div');
+                                            alertItem.className = 'record-item critical-item';
+                                            
+                                            let criticalReason = '';
+                                            const vs = patient.vital_signs;
+                                            
+                                            if (vs.temperature > 39) criticalReason += 'High Fever ';
+                                            if (parseInt(vs.bp.split('/')[0]) > 140) criticalReason += 'High BP ';
+                                            if (vs.spo2 < 95) criticalReason += 'Low O2 ';
+                                            if (vs.pulse > 100 || vs.pulse < 60) criticalReason += 'Abnormal Pulse ';
+                                            
+                                            alertItem.innerHTML = `
+                                                <div class="d-flex justify-content-between">
+                                                    <strong>${patient.name}</strong>
+                                                    <span class="critical-badge">${criticalReason}</span>
+                                                </div>
+                                                <div class="mt-1">
+                                                    <small>${patient.age} y.o. ${patient.gender} - ${patient.diagnosis}</small>
+                                                </div>
+                                            `;
+                                            
+                                            alertsContainer.appendChild(alertItem);
+                                        });
+                                    }
+                                    
+                                    // Handle form submission for patient data
+                                    function handlePatientFormSubmit(event) {
+                                        event.preventDefault();
+                                        
+                                        // Get form data
+                                        const name = document.getElementById('patientName').value;
+                                        const age = parseInt(document.getElementById('patientAge').value);
+                                        const gender = document.getElementById('patientGender').value;
+                                        const bp = document.getElementById('bp').value;
+                                        const spo2 = parseInt(document.getElementById('spo2').value);
+                                        const pulse = parseInt(document.getElementById('pulse').value);
+                                        const temperature = parseFloat(document.getElementById('temperature').value);
+                                        const symptoms = document.getElementById('symptoms').value;
+                                        const diagnosis = document.getElementById('diagnosis').value;
+                                        const prescription = document.getElementById('prescription').value;
+                                        const followupNeeded = document.getElementById('followupNeeded').checked;
+                                        
+                                        // Check if critical
+                                        const isCritical = temperature > 39 || 
+                                                           parseInt(bp.split('/')[0]) > 140 || 
+                                                           spo2 < 95 || 
+                                                           pulse > 100 || 
+                                                           pulse < 60;
+                                        
+                                        // Create new patient record
+                                        const newPatient = {
+                                            id: patientData.length + 1,
+                                            name,
+                                            age,
+                                            gender,
+                                            vital_signs: { bp, spo2, pulse, temperature },
+                                            symptoms,
+                                            diagnosis,
+                                            prescription,
+                                            followupNeeded,
+                                            isCritical,
+                                            timestamp: new Date(),
+                                            status: 'completed'
+                                        };
+                                        
+                                        // Add to patient data
+                                        patientData.push(newPatient);
+                                        
+                                        // Update record list
+                                        addRecordToList(newPatient);
+                                        
+                                        // Update stats and alerts
+                                        updatePatientStats();
+                                        updateCriticalAlerts();
+                                        populateHandoffLists();
+                                        
+                                        // Clear form
+                                        document.getElementById('patientForm').reset();
+                                        
+                                        // Show success message
+                                        alert('Patient record saved successfully!');
+                                    }
+                                    
+                                    // Add a patient record to the records list
+                                    function addRecordToList(patient) {
+                                        const recordsList = document.getElementById('recordsList');
+                                        
+                                        const recordItem = document.createElement('div');
+                                        recordItem.className = `card mb-3 record-item ${patient.isCritical ? 'critical-pulse' : ''}`;
+                                        
+                                        // Format timestamp
+                                        const timestamp = patient.timestamp ? patient.timestamp : new Date();
+                                        const timeString = timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                                        
+                                        recordItem.innerHTML = `
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between">
+                                                    <h5 class="card-title">${patient.name} <small class="text-muted">${patient.age} y.o. ${patient.gender}</small></h5>
+                                                    <small class="text-muted">${timeString}</small>
+                                                </div>
+                                                
+                                                <div class="row mb-2 mt-2">
+                                                    <div class="col-md-3">
+                                                        <small class="d-block text-muted">BP</small>
+                                                        <strong>${patient.vital_signs.bp}</strong>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <small class="d-block text-muted">SpO2</small>
+                                                        <strong>${patient.vital_signs.spo2}%</strong>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <small class="d-block text-muted">Pulse</small>
+                                                        <strong>${patient.vital_signs.pulse} bpm</strong>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <small class="d-block text-muted">Temp</small>
+                                                        <strong>${patient.vital_signs.temperature}°C</strong>
+                                                    </div>
+                                                </div>
+                                                
+                                                <p><strong>Symptoms:</strong> ${patient.symptoms}</p>
+                                                <p><strong>Diagnosis:</strong> ${patient.diagnosis}</p>
+                                                <p><strong>Plan:</strong> ${patient.prescription}</p>
+                                                
+                                                <div class="d-flex justify-content-between">
+                                                    <div>
+                                                        ${patient.followupNeeded ? '<span class="badge bg-warning">Follow-up Required</span>' : ''}
+                                                        ${patient.isCritical ? '<span class="badge bg-danger ms-2">Critical</span>' : ''}
+                                                    </div>
+                                                    <div>
+                                                        <button class="btn btn-sm btn-secondary" onclick="editRecord(${patient.id})">
+                                                            <i class="fas fa-edit"></i> Edit
+                                                        </button>
+                                                        <button class="btn btn-sm btn-danger ms-2" onclick="deleteRecord(${patient.id})">
+                                                            <i class="fas fa-trash"></i> Delete
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        `;
+                                        
+                                        recordsList.prepend(recordItem);
+                                    }
+                                    
+                                    // Edit patient record
+                                    function editRecord(patientId) {
+                                        loadPatientData(patientId);
+                                        // Scroll to form
+                                        document.getElementById('patientForm').scrollIntoView({ behavior: 'smooth' });
+                                    }
+                                    
+                                    // Delete patient record
+                                    function deleteRecord(patientId) {
+                                        if (confirm('Are you sure you want to delete this record?')) {
+                                            const index = patientData.findIndex(p => p.id === patientId);
+                                            if (index !== -1) {
+                                                patientData.splice(index, 1);
+                                                
+                                                // Refresh all displays
+                                                document.getElementById('recordsList').innerHTML = '';
+                                                patientData.filter(p => p.status === 'completed').forEach(p => addRecordToList(p));
+                                                
+                                                updatePatientQueue();
+                                                updatePatientStats();
+                                                updateCriticalAlerts();
+                                                populateHandoffLists();
+                                            }
+                                        }
+                                    }
+                                    
+                                    // Apply template to form
+                                    function applyTemplate(templateType) {
+                                        if (!templateType) return;
+                                        
+                                        let symptoms = '';
+                                        let diagnosis = '';
+                                        let prescription = '';
+                                        
+                                        switch(templateType) {
+                                            case 'general':
+                                                symptoms = 'General health assessment';
+                                                diagnosis = 'Routine check-up';
+                                                prescription = 'No acute medical issues. Follow general health maintenance recommendations.';
+                                                break;
+                                            case 'cardiac':
+                                                symptoms = 'Chest pain, shortness of breath, palpitations';
+                                                diagnosis = 'Cardiovascular evaluation';
+                                                prescription = 'ECG monitoring, cardiac enzymes, blood pressure management';
+                                                break;
+                                            case 'respiratory':
+                                                symptoms = 'Cough, shortness of breath, wheezing';
+                                                diagnosis = 'Respiratory assessment';
+                                                prescription = 'Pulse oximetry monitoring, bronchodilators as needed, respiratory therapy';
+                                                break;
+                                            case 'pediatric':
+                                                symptoms = 'Fever, irritability, decreased appetite';
+                                                diagnosis = 'Pediatric evaluation';
+                                                prescription = 'Age-appropriate fever management, adequate hydration, parental education';
+                                                break;
+                                        }
+                                        
+                                        document.getElementById('symptoms').value = symptoms;
+                                        document.getElementById('diagnosis').value = diagnosis;
+                                        document.getElementById('prescription').value = prescription;
+                                    }
+                                    
+                                    // Filter patients by search term
+                                    function filterPatients(searchTerm) {
+                                        const patientCards = document.querySelectorAll('.patient-card');
+                                        searchTerm = searchTerm.toLowerCase();
+                                        
+                                        patientCards.forEach(card => {
+                                            const patientName = card.querySelector('strong').textContent.toLowerCase();
+                                            if (patientName.includes(searchTerm)) {
+                                                card.style.display = 'flex';
+                                            } else {
+                                                card.style.display = 'none';
+                                            }
+                                        });
+                                    }
+                                    
+                                    // Start voice input functionality
+                                    
+                                    
+                                    // Populate handoff lists
+                                    function populateHandoffLists() {
+                                        const pendingList = document.getElementById('pendingHandoffs');
+                                        const completedList = document.getElementById('completedHandoffs');
+                                        const followupList = document.getElementById('followupHandoffs');
+                                        
+                                        // Clear lists
+                                        pendingList.innerHTML = '';
+                                        completedList.innerHTML = '';
+                                        followupList.innerHTML = '';
+                                        
+                                        // Populate pending handoffs
+                                        const pendingPatients = patientData.filter(p => p.status === 'pending');
+                                        if (pendingPatients.length === 0) {
+                                            pendingList.innerHTML = '<p class="text-muted">No pending patients.</p>';
+                                        } else {
+                                            pendingPatients.forEach(patient => {
+                                                const handoffItem = createHandoffItem(patient);
+                                                pendingList.appendChild(handoffItem);
+                                            });
+                                        }
+                                        
+                                        // Populate completed handoffs
+                                        const completedPatients = patientData.filter(p => p.status === 'completed');
+                                        if (completedPatients.length === 0) {
+                                            completedList.innerHTML = '<p class="text-muted">No completed visits.</p>';
+                                        } else {
+                                            completedPatients.forEach(patient => {
+                                                const handoffItem = createHandoffItem(patient);
+                                                completedList.appendChild(handoffItem);
+                                            });
+                                        }
+                                        
+                                        // Populate follow-up handoffs
+                                        const followupPatients = patientData.filter(p => p.followupNeeded);
+                                        if (followupPatients.length === 0) {
+                                            followupList.innerHTML = '<p class="text-muted">No follow-ups scheduled.</p>';
+                                        } else {
+                                            followupPatients.forEach(patient => {
+                                                const handoffItem = createHandoffItem(patient);
+                                                followupList.appendChild(handoffItem);
+                                            });
+                                        }
+                                    }
+                                    
+                                    // Create handoff item
+                                    function createHandoffItem(patient) {
+                                        const handoffItem = document.createElement('div');
+                                        handoffItem.className = 'record-item handoff-card mb-2';
+                                        
+                                        // Determine severity indicator
+                                        let severityClass = 'severity-low';
+                                        if (patient.isCritical) {
+                                            severityClass = 'severity-high';
+                                        }
+                                        
+                                        handoffItem.innerHTML = `
+                                            <div class="d-flex align-items-center">
+                                                <span class="severity-indicator ${severityClass}"></span>
+                                                <strong>${patient.name}</strong>
+                                            </div>
+                                            <small>${patient.age} y.o. ${patient.gender} - ${patient.diagnosis}</small>
+                                        `;
+                                        
+                                        return handoffItem;
+                                    }
+                                    
+                                    // Generate handoff report
+                                    function generateHandoffReport() {
+                                        const pendingPatients = patientData.filter(p => p.status === 'pending');
+    const completedPatients = patientData.filter(p => p.status === 'completed');
+    const followupPatients = patientData.filter(p => p.followupNeeded);
+    
+    // Create report content
+    let reportContent = `
+        # SmartCare Assistant Handoff Report
+        Generated: ${new Date().toLocaleString()}
+        
+        ## Pending Patients (${pendingPatients.length})
+        ${pendingPatients.map(p => `- ${p.name} (${p.age}y.o. ${p.gender}) - ${p.diagnosis}`).join('\n')}
+        
+        ## Completed Visits (${completedPatients.length})
+        ${completedPatients.map(p => `- ${p.name} (${p.age}y.o. ${p.gender}) - ${p.diagnosis}`).join('\n')}
+        
+        ## Follow-ups Required (${followupPatients.length})
+        ${followupPatients.map(p => `- ${p.name} (${p.age}y.o. ${p.gender}) - ${p.diagnosis}`).join('\n')}
+        
+        ## Critical Cases (${patientData.filter(p => p.isCritical).length})
+        ${patientData.filter(p => p.isCritical).map(p => `- ${p.name} (${p.age}y.o. ${p.gender}) - ${p.diagnosis}`).join('\n')}
+    `;
+    
+    // Create blob and download
+    const blob = new Blob([reportContent], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'handoff-report-' + new Date().toISOString().slice(0, 10) + '.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+                                    
+                                    
+                                    // Clear handoff entries
+                                    function clearHandoffEntries() {
+                                        if (confirm('Are you sure you want to clear all handoff entries?')) {
+                                            document.getElementById('pendingHandoffs').innerHTML = '<p class="text-muted">No pending patients.</p>';
+                                            document.getElementById('completedHandoffs').innerHTML = '<p class="text-muted">No completed visits.</p>';
+                                            document.getElementById('followupHandoffs').innerHTML = '<p class="text-muted">No follow-ups scheduled.</p>';
+                                        }
+                                    }
+                                    
+                                    // Update analytics data
+                                    function updateAnalyticsData() {
+                                        const period = document.getElementById('analyticsPeriod').value;
+                                        
+                                        // This would normally fetch from a server based on the selected period
+                                        // Placeholder data for demo
+                                        let topDiagnosisData, avgVitalsReviewData, patientSatisfactionData;
+                                        
+                                        switch(period) {
+                                            case 'day':
+                                                topDiagnosisData = 'URI (32%)';
+                                                avgVitalsReviewData = '2.4 min';
+                                                patientSatisfactionData = '4.8/5';
+                                                break;
+                                            case 'week':
+                                                topDiagnosisData = 'Hypertension (28%)';
+                                                avgVitalsReviewData = '3.1 min';
+                                                patientSatisfactionData = '4.6/5';
+                                                break;
+                                            case 'month':
+                                                topDiagnosisData = 'T2DM (23%)';
+                                                avgVitalsReviewData = '2.8 min';
+                                                patientSatisfactionData = '4.7/5';
+                                                break;
+                                        }
+                                        
+                                        document.getElementById('topDiagnosis').textContent = topDiagnosisData;
+                                        document.getElementById('avgVitalsReview').textContent = avgVitalsReviewData;
+                                        document.getElementById('patientSatisfaction').textContent = patientSatisfactionData;
+                                    }
+                                    
+                                    // Open detailed analytics
+                                    function openDetailedAnalytics() {
+                                        const modal = document.createElement('div');
+    modal.className = 'modal fade';
+    modal.id = 'analyticsModal';
+    modal.setAttribute('tabindex', '-1');
+    modal.setAttribute('aria-hidden', 'true');
+    
+    const modalContent = `
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detailed Analytics</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs" id="analyticsTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="diagnoses-tab" data-bs-toggle="tab" data-bs-target="#diagnoses" type="button" role="tab">Diagnoses</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="vitals-tab" data-bs-toggle="tab" data-bs-target="#vitals" type="button" role="tab">Vitals</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="performance-tab" data-bs-toggle="tab" data-bs-target="#performance" type="button" role="tab">Performance</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content mt-3" id="analyticsTabContent">
+                        <div class="tab-pane fade show active" id="diagnoses" role="tabpanel">
+                            <div class="chart-container">
+                                <canvas id="diagnosesChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="vitals" role="tabpanel">
+                            <div class="chart-container">
+                                <canvas id="vitalsChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="performance" role="tabpanel">
+                            <div class="chart-container">
+                                <canvas id="performanceChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="exportAnalytics()">Export Data</button>
+                </div>
+            </div>
         </div>
+    `;
+    
+    modal.innerHTML = modalContent;
+    document.body.appendChild(modal);
+    
+    // Initialize the modal
+    const analyticsModal = new bootstrap.Modal(document.getElementById('analyticsModal'));
+    analyticsModal.show();
+    
+    // Create charts after modal is shown
+    document.getElementById('analyticsModal').addEventListener('shown.bs.modal', function () {
+        createDiagnosesChart();
+        createVitalsChart();
+        createPerformanceChart();
+    });
+}
 
-        <!-- Analytics Section -->
-        <div class="row mt-4">
-            <div class="col-12">
-                <h3>Analytics Dashboard</h3>
-            </div>
-            <div class="col-md-6">
-                <div class="analytics-card">
-                    <h5>Age Distribution</h5>
-                    <div class="chart-container">
-                        <canvas id="ageChart"></canvas>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="analytics-card">
-                    <h5>Vital Signs Trends</h5>
-                    <div class="chart-container">
-                        <canvas id="vitalsChart"></canvas>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="analytics-card">
-                    <h5>Patient Visit Timeline</h5>
-                    <div class="chart-container">
-                        <canvas id="timelineChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        // Initialize patient records from localStorage
-        let patientRecords = JSON.parse(localStorage.getItem('patientRecords')) || [];
-        updateStats();
-        displayRecords();
-
-        document.getElementById('patientForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const patientData = {
-                name: document.getElementById('patientName').value,
-                age: document.getElementById('patientAge').value,
-                bp: document.getElementById('bp').value,
-                spo2: document.getElementById('spo2').value,
-                pulse: document.getElementById('pulse').value,
-                temperature: document.getElementById('temperature').value,
-                symptoms: document.getElementById('symptoms').value,
-                prescription: document.getElementById('prescription').value,
-                timestamp: new Date().toISOString(),
-                isCritical: false,
-                criticalVitals: []
-            };
-
-            // Check for critical values
-            const criticalResults = checkVitalSigns(patientData);
-            patientData.isCritical = criticalResults.isCritical;
-            patientData.criticalVitals = criticalResults.criticalVitals;
-
-            // Save to array and localStorage
-            patientRecords.push(patientData);
-            localStorage.setItem('patientRecords', JSON.stringify(patientRecords));
-
-            // Update UI
-            updateStats();
-            displayRecords();
-            generateAnalytics();
-
-            // Clear form
-            this.reset();
-            alert('Patient record saved successfully!');
-        });
-
-        function checkVitalSigns(data) {
-            const criticalVitals = [];
-            
-            // Check each vital sign against thresholds
-            if (parseFloat(data.temperature) > 39) {
-                criticalVitals.push({ type: 'temperature', value: data.temperature, message: 'High Temperature' });
-            }
-            
-            if (parseFloat(data.spo2) < 95) {
-                criticalVitals.push({ type: 'spo2', value: data.spo2, message: 'Low SpO2' });
-            }
-            
-            if (parseFloat(data.bp) > 140) {
-                criticalVitals.push({ type: 'bp', value: data.bp, message: 'High Blood Pressure' });
-            }
-            
-            if (parseFloat(data.pulse) > 100) {
-                criticalVitals.push({ type: 'pulse', value: data.pulse, message: 'High Pulse Rate' });
-            } else if (parseFloat(data.pulse) < 60) {
-                criticalVitals.push({ type: 'pulse', value: data.pulse, message: 'Low Pulse Rate' });
-            }
-            
-            const isCritical = criticalVitals.length > 0;
-            
-            if (isCritical) {
-                const messages = criticalVitals.map(v => v.message).join(', ');
-                alert(`WARNING: Critical vital signs detected! ${messages}`);
-            }
-            
-            return {
-                isCritical,
-                criticalVitals
-            };
+// Create diagnoses chart
+function createDiagnosesChart() {
+    const ctx = document.getElementById('diagnosesChart').getContext('2d');
+    
+    // Count diagnoses
+    const diagnosesCounts = {};
+    patientData.forEach(patient => {
+        const diagnosis = patient.diagnosis;
+        if (diagnosesCounts[diagnosis]) {
+            diagnosesCounts[diagnosis]++;
+        } else {
+            diagnosesCounts[diagnosis] = 1;
         }
-
-        function updateStats() {
-            document.getElementById('totalPatients').textContent = patientRecords.length;
-            document.getElementById('criticalCases').textContent = 
-                patientRecords.filter(record => record.isCritical).length;
-            // For demo purposes, setting pending followups to 30% of total patients
-            document.getElementById('pendingFollowups').textContent = 
-                Math.floor(patientRecords.length * 0.3);
-        }
-
-        function displayRecords() {
-            const recordsList = document.getElementById('recordsList');
-            recordsList.innerHTML = '';
-
-            patientRecords.slice().reverse().forEach((record, index) => {
-                const recordDiv = document.createElement('div');
-                recordDiv.className = `record-item ${record.isCritical ? 'critical-item' : ''}`;
-                
-                // Create vital signs display with highlighting for critical values
-                let vitalSignsHTML = '';
-                const bp = parseInt(record.bp);
-                const spo2 = parseInt(record.spo2);
-                const pulse = parseInt(record.pulse);
-                const temp = parseFloat(record.temperature);
-                
-                // Check if each vital is in the critical vitals array
-                const isTemperatureCritical = record.criticalVitals?.some(v => v.type === 'temperature');
-                const isBpCritical = record.criticalVitals?.some(v => v.type === 'bp');
-                const isSpo2Critical = record.criticalVitals?.some(v => v.type === 'spo2');
-                const isPulseCritical = record.criticalVitals?.some(v => v.type === 'pulse');
-                
-                vitalSignsHTML = `
-                    <p>
-                        BP: <span class="${isBpCritical ? 'text-danger fw-bold' : ''}">${record.bp}</span> | 
-                        SpO2: <span class="${isSpo2Critical ? 'text-danger fw-bold' : ''}">${record.spo2}%</span> | 
-                        Pulse: <span class="${isPulseCritical ? 'text-danger fw-bold' : ''}">${record.pulse}</span> | 
-                        Temp: <span class="${isTemperatureCritical ? 'text-danger fw-bold' : ''}">${record.temperature}°C</span>
-                    </p>
-                `;
-                
-                // Add critical vitals badges if any
-                let criticalBadgesHTML = '';
-                if (record.criticalVitals && record.criticalVitals.length > 0) {
-                    criticalBadgesHTML += '<div class="critical-vitals">';
-                    record.criticalVitals.forEach(vital => {
-                        criticalBadgesHTML += `<span class="critical-badge">${vital.message}: ${vital.value}${vital.type === 'temperature' ? '°C' : vital.type === 'spo2' ? '%' : ''}</span>`;
-                    });
-                    criticalBadgesHTML += '</div>';
-                }
-                
-                recordDiv.innerHTML = `
-                    <h6>${record.name} (${record.age} years)</h6>
-                    ${vitalSignsHTML}
-                    ${criticalBadgesHTML}
-                    <p><strong>Symptoms:</strong> ${record.symptoms}</p>
-                    <p><strong>Prescription:</strong> ${record.prescription}</p>
-                    <small>${new Date(record.timestamp).toLocaleString()}</small>
-                `;
-                recordsList.appendChild(recordDiv);
-            });
-        }
-
-        function startVoiceInput() {
-            if ('webkitSpeechRecognition' in window) {
-                const recognition = new webkitSpeechRecognition();
-                recognition.continuous = true;
-                recognition.interimResults = true;
-
-                recognition.onresult = function(event) {
-                    const transcript = Array.from(event.results)
-                        .map(result => result[0])
-                        .map(result => result.transcript)
-                        .join('');
-                    
-                    document.getElementById('symptoms').value = transcript;
-                };
-
-                recognition.start();
-            } else {
-                alert('Voice recognition is not supported in this browser.');
-            }
-        }
-
-        function generateAnalytics() {
-            // Age distribution chart
-            const ages = patientRecords.map(record => parseInt(record.age));
-            const ageRanges = {
-                '0-20': 0,
-                '21-40': 0,
-                '41-60': 0,
-                '60+': 0
-            };
-
-            ages.forEach(age => {
-                if (age <= 20) ageRanges['0-20']++;
-                else if (age <= 40) ageRanges['21-40']++;
-                else if (age <= 60) ageRanges['41-60']++;
-                else ageRanges['60+']++;
-            });
-
-            new Chart(document.getElementById('ageChart'), {
-                type: 'pie',
-                data: {
-                    labels: Object.keys(ageRanges),
-                    datasets: [{
-                        data: Object.values(ageRanges),
-                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
-                    }]
+    });
+    
+    // Prepare chart data
+    const labels = Object.keys(diagnosesCounts);
+    const data = Object.values(diagnosesCounts);
+    const backgroundColors = labels.map(() => 
+        `rgba(${Math.floor(Math.random() * 200)}, ${Math.floor(Math.random() * 200)}, ${Math.floor(Math.random() * 200)}, 0.7)`
+    );
+    
+    // Create chart
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Diagnoses Distribution',
+                data: data,
+                backgroundColor: backgroundColors,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'right',
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false
+                title: {
+                    display: true,
+                    text: 'Diagnoses Distribution'
                 }
-            });
+            }
+        }
+    });
+}
 
-            // Vital signs trends
-            const lastTenRecords = patientRecords.slice(-10).reverse();
-            new Chart(document.getElementById('vitalsChart'), {
-                type: 'line',
-                data: {
-                    labels: lastTenRecords.map(record => new Date(record.timestamp).toLocaleDateString()),
-                    datasets: [{
-                        label: 'Blood Pressure',
-                        data: lastTenRecords.map(record => record.bp),
-                        borderColor: '#FF6384',
-                        fill: false
-                    }, {
-                        label: 'SpO2',
-                        data: lastTenRecords.map(record => record.spo2),
-                        borderColor: '#36A2EB',
-                        fill: false
-                    }, {
-                        label: 'Temperature',
-                        data: lastTenRecords.map(record => record.temperature),
-                        borderColor: '#FFCE56',
-                        fill: false
-                    }]
+// Create vitals chart
+function createVitalsChart() {
+    const ctx = document.getElementById('vitalsChart').getContext('2d');
+    
+    // Extract patient names and vital signs
+    const patientNames = patientData.map(p => p.name);
+    const systolicBP = patientData.map(p => parseInt(p.vital_signs.bp.split('/')[0]));
+    const diastolicBP = patientData.map(p => parseInt(p.vital_signs.bp.split('/')[1]));
+    const o2Levels = patientData.map(p => p.vital_signs.spo2);
+    const pulseRates = patientData.map(p => p.vital_signs.pulse);
+    
+    // Create chart
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: patientNames,
+            datasets: [
+                {
+                    label: 'Systolic BP',
+                    data: systolicBP,
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    borderWidth: 1
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: false
-                        }
+                {
+                    label: 'Diastolic BP',
+                    data: diastolicBP,
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgb(54, 162, 235)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'O2 Levels',
+                    data: o2Levels,
+                    backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                    borderColor: 'rgb(75, 192, 192)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Pulse Rate',
+                    data: pulseRates,
+                    backgroundColor: 'rgba(153, 102, 255, 0.5)',
+                    borderColor: 'rgb(153, 102, 255)',
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: false
+                }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Patient Vital Signs Comparison'
+                }
+            }
+        }
+    });
+}
+
+// Create performance chart
+function createPerformanceChart() {
+    const ctx = document.getElementById('performanceChart').getContext('2d');
+    
+    // Sample performance data (this would come from actual tracking in a real system)
+    const timeLabels = ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM'];
+    const patientsPerHour = [2, 3, 4, 5, 2, 3, 4, 3, 2];
+    const avgConsultTime = [15, 12, 10, 11, 14, 13, 12, 10, 11];
+    
+    // Create chart
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: timeLabels,
+            datasets: [
+                {
+                    label: 'Patients Per Hour',
+                    data: patientsPerHour,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 2,
+                    tension: 0.3,
+                    yAxisID: 'y'
+                },
+                {
+                    label: 'Avg Consultation Time (min)',
+                    data: avgConsultTime,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 2,
+                    tension: 0.3,
+                    yAxisID: 'y1'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            interaction: {
+                mode: 'index',
+                intersect: false,
+            },
+            stacked: false,
+            scales: {
+                y: {
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    title: {
+                        display: true,
+                        text: 'Patients'
                     }
-                }
-            });
-
-            // Patient visits timeline
-            const visitsByDate = {};
-            patientRecords.forEach(record => {
-                const date = new Date(record.timestamp).toLocaleDateString();
-                visitsByDate[date] = (visitsByDate[date] || 0) + 1;
-            });
-
-            new Chart(document.getElementById('timelineChart'), {
-                type: 'bar',
-                data: {
-                    labels: Object.keys(visitsByDate),
-                    datasets: [{
-                        label: 'Patient Visits',
-                        data: Object.values(visitsByDate),
-                        backgroundColor: '#4BC0C0'
-                    }]
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                stepSize: 1
-                            }
-                        }
+                y1: {
+                    type: 'linear',
+                    display: true,
+                    position: 'right',
+                    title: {
+                        display: true,
+                        text: 'Minutes'
                     }
+                },
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Daily Performance Metrics'
                 }
-            });
+            }
         }
+    });
+}
 
-        // Update the initial load section
-        updateStats();
-        displayRecords();
-        generateAnalytics();
-    </script>
-</body>
-</html>
+// Export analytics data to CSV
+function exportAnalytics() {
+    // Prepare CSV content
+    let csvContent = "data:text/csv;charset=utf-8,";
+    
+    // Headers
+    csvContent += "Patient Name,Age,Gender,Diagnosis,BP,SpO2,Pulse,Temperature,Critical,Follow-up\n";
+    
+    // Data rows
+    patientData.forEach(patient => {
+        const row = [
+            patient.name,
+            patient.age,
+            patient.gender,
+            patient.diagnosis,
+            patient.vital_signs.bp,
+            patient.vital_signs.spo2,
+            patient.vital_signs.pulse,
+            patient.vital_signs.temperature,
+            patient.isCritical ? "Yes" : "No",
+            patient.followupNeeded ? "Yes" : "No"
+        ];
+        csvContent += row.join(",") + "\n";
+    });
+    
+    // Create download link
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "smartcare-analytics-" + new Date().toISOString().slice(0, 10) + ".csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+                                </script>
+                            </body>
+                            </html>
