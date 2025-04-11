@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Care Assistant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        :root {
+            --primary-color: #2C7FB8;
+            --secondary-color: #7FDBFF;
+            --accent-color: #01FF70;
+            --gradient-start: #2C7FB8;
+            --gradient-end: #00A6ED;
+            --critical-color: #dc3545;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f8fa;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(44, 127, 184, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(0, 166, 237, 0.05) 0%, transparent 20%);
+            background-attachment: fixed;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: none;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(44, 127, 184, 0.3);
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: button-shine 3s infinite;
+        }
+
+        @keyframes button-shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .vital-card {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .vital-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 0 L100 50 L50 100 L0 50Z' fill='rgba(255,255,255,0.05)'/%3E%3C/svg%3E") repeat;
+            opacity: 0.1;
+        }
+
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 300px;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        #recordsList {
+            margin-top: 20px;
+        }
+
+        .record-item {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            animation: slideIn 0.5s ease-out;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .record-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .analytics-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            animation: fadeIn 0.5s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .analytics-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0 L50 50 L0 100 M100 0 L50 50 L100 100' stroke='%232C7FB8' stroke-width='1' fill='none' stroke-opacity='0.05'/%3E%3C/svg%3E") repeat;
+            pointer-events: none;
+        }
+
+        .analytics-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .form-control {
+            border-radius: 10px;
+            border: 1px solid rgba(44, 127, 184, 0.2);
+            padding: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            box-shadow: 0 0 0 3px rgba(44, 127, 184, 0.1);
+            border-color: var(--primary-color);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .critical-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        h3, h5 {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+
+        h3::after, h5::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 3px;
+        }
+        
+        .critical-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            background-color: var(--critical-color);
+            color: white;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        
+        .critical-vitals {
+            margin-top: 10px;
+        }
+        
+        .critical-item {
+            border-left: 4px solid var(--critical-color);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">SmartCare Assistant</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" title="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#patientForm">Patients</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#recordsList">Records</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#ageChart">Analytics</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Patient Information</h5>
+                        <form id="patientForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <input type="text" class="form-control" id="patientName" placeholder="Patient Name" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <input type="number" class="form-control" id="patientAge" placeholder="Age" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 mb-3">
+                                    <input type="number" class="form-control" id="bp" placeholder="Blood Pressure" required>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <input type="number" class="form-control" id="spo2" placeholder="SpO2" required>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <input type="number" class="form-control" id="pulse" placeholder="Pulse" required>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <input type="number" class="form-control" id="temperature" placeholder="Temperature" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <textarea class="form-control" id="symptoms" rows="3" placeholder="Symptoms" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <textarea class="form-control" id="prescription" rows="3" placeholder="Prescription" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Record</button>
+                            <button type="button" class="btn btn-secondary" onclick="startVoiceInput()">Voice Input</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Records List -->
+                <div id="recordsList"></div>
+            </div>
+            <div class="col-md-4">
+                <div class="card vital-card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Quick Stats</h5>
+                        <div id="patientStats">
+                            <p>Total Patients Today: <span id="totalPatients">0</span></p>
+                            <p>Critical Cases: <span id="criticalCases">0</span></p>
+                            <p>Pending Follow-ups: <span id="pendingFollowups">0</span></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Critical Thresholds Card -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Critical Thresholds</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Temperature: > 39°C</li>
+                            <li class="list-group-item">Blood Pressure: > 140</li>
+                            <li class="list-group-item">SpO2: < 95%</li>
+                            <li class="list-group-item">Pulse: > 100 or < 60</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Section -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <h3>Analytics Dashboard</h3>
+            </div>
+            <div class="col-md-6">
+                <div class="analytics-card">
+                    <h5>Age Distribution</h5>
+                    <div class="chart-container">
+                        <canvas id="ageChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="analytics-card">
+                    <h5>Vital Signs Trends</h5>
+                    <div class="chart-container">
+                        <canvas id="vitalsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="analytics-card">
+                    <h5>Patient Visit Timeline</h5>
+                    <div class="chart-container">
+                        <canvas id="timelineChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Initialize patient records from localStorage
+        let patientRecords = JSON.parse(localStorage.getItem('patientRecords')) || [];
+        updateStats();
+        displayRecords();
+
+        document.getElementById('patientForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const patientData = {
+                name: document.getElementById('patientName').value,
+                age: document.getElementById('patientAge').value,
+                bp: document.getElementById('bp').value,
+                spo2: document.getElementById('spo2').value,
+                pulse: document.getElementById('pulse').value,
+                temperature: document.getElementById('temperature').value,
+                symptoms: document.getElementById('symptoms').value,
+                prescription: document.getElementById('prescription').value,
+                timestamp: new Date().toISOString(),
+                isCritical: false,
+                criticalVitals: []
+            };
+
+            // Check for critical values
+            const criticalResults = checkVitalSigns(patientData);
+            patientData.isCritical = criticalResults.isCritical;
+            patientData.criticalVitals = criticalResults.criticalVitals;
+
+            // Save to array and localStorage
+            patientRecords.push(patientData);
+            localStorage.setItem('patientRecords', JSON.stringify(patientRecords));
+
+            // Update UI
+            updateStats();
+            displayRecords();
+            generateAnalytics();
+
+            // Clear form
+            this.reset();
+            alert('Patient record saved successfully!');
+        });
+
+        function checkVitalSigns(data) {
+            const criticalVitals = [];
+            
+            // Check each vital sign against thresholds
+            if (parseFloat(data.temperature) > 39) {
+                criticalVitals.push({ type: 'temperature', value: data.temperature, message: 'High Temperature' });
+            }
+            
+            if (parseFloat(data.spo2) < 95) {
+                criticalVitals.push({ type: 'spo2', value: data.spo2, message: 'Low SpO2' });
+            }
+            
+            if (parseFloat(data.bp) > 140) {
+                criticalVitals.push({ type: 'bp', value: data.bp, message: 'High Blood Pressure' });
+            }
+            
+            if (parseFloat(data.pulse) > 100) {
+                criticalVitals.push({ type: 'pulse', value: data.pulse, message: 'High Pulse Rate' });
+            } else if (parseFloat(data.pulse) < 60) {
+                criticalVitals.push({ type: 'pulse', value: data.pulse, message: 'Low Pulse Rate' });
+            }
+            
+            const isCritical = criticalVitals.length > 0;
+            
+            if (isCritical) {
+                const messages = criticalVitals.map(v => v.message).join(', ');
+                alert(`WARNING: Critical vital signs detected! ${messages}`);
+            }
+            
+            return {
+                isCritical,
+                criticalVitals
+            };
+        }
+
+        function updateStats() {
+            document.getElementById('totalPatients').textContent = patientRecords.length;
+            document.getElementById('criticalCases').textContent = 
+                patientRecords.filter(record => record.isCritical).length;
+            // For demo purposes, setting pending followups to 30% of total patients
+            document.getElementById('pendingFollowups').textContent = 
+                Math.floor(patientRecords.length * 0.3);
+        }
+
+        function displayRecords() {
+            const recordsList = document.getElementById('recordsList');
+            recordsList.innerHTML = '';
+
+            patientRecords.slice().reverse().forEach((record, index) => {
+                const recordDiv = document.createElement('div');
+                recordDiv.className = `record-item ${record.isCritical ? 'critical-item' : ''}`;
+                
+                // Create vital signs display with highlighting for critical values
+                let vitalSignsHTML = '';
+                const bp = parseInt(record.bp);
+                const spo2 = parseInt(record.spo2);
+                const pulse = parseInt(record.pulse);
+                const temp = parseFloat(record.temperature);
+                
+                // Check if each vital is in the critical vitals array
+                const isTemperatureCritical = record.criticalVitals?.some(v => v.type === 'temperature');
+                const isBpCritical = record.criticalVitals?.some(v => v.type === 'bp');
+                const isSpo2Critical = record.criticalVitals?.some(v => v.type === 'spo2');
+                const isPulseCritical = record.criticalVitals?.some(v => v.type === 'pulse');
+                
+                vitalSignsHTML = `
+                    <p>
+                        BP: <span class="${isBpCritical ? 'text-danger fw-bold' : ''}">${record.bp}</span> | 
+                        SpO2: <span class="${isSpo2Critical ? 'text-danger fw-bold' : ''}">${record.spo2}%</span> | 
+                        Pulse: <span class="${isPulseCritical ? 'text-danger fw-bold' : ''}">${record.pulse}</span> | 
+                        Temp: <span class="${isTemperatureCritical ? 'text-danger fw-bold' : ''}">${record.temperature}°C</span>
+                    </p>
+                `;
+                
+                // Add critical vitals badges if any
+                let criticalBadgesHTML = '';
+                if (record.criticalVitals && record.criticalVitals.length > 0) {
+                    criticalBadgesHTML += '<div class="critical-vitals">';
+                    record.criticalVitals.forEach(vital => {
+                        criticalBadgesHTML += `<span class="critical-badge">${vital.message}: ${vital.value}${vital.type === 'temperature' ? '°C' : vital.type === 'spo2' ? '%' : ''}</span>`;
+                    });
+                    criticalBadgesHTML += '</div>';
+                }
+                
+                recordDiv.innerHTML = `
+                    <h6>${record.name} (${record.age} years)</h6>
+                    ${vitalSignsHTML}
+                    ${criticalBadgesHTML}
+                    <p><strong>Symptoms:</strong> ${record.symptoms}</p>
+                    <p><strong>Prescription:</strong> ${record.prescription}</p>
+                    <small>${new Date(record.timestamp).toLocaleString()}</small>
+                `;
+                recordsList.appendChild(recordDiv);
+            });
+        }
+
+        function startVoiceInput() {
+            if ('webkitSpeechRecognition' in window) {
+                const recognition = new webkitSpeechRecognition();
+                recognition.continuous = true;
+                recognition.interimResults = true;
+
+                recognition.onresult = function(event) {
+                    const transcript = Array.from(event.results)
+                        .map(result => result[0])
+                        .map(result => result.transcript)
+                        .join('');
+                    
+                    document.getElementById('symptoms').value = transcript;
+                };
+
+                recognition.start();
+            } else {
+                alert('Voice recognition is not supported in this browser.');
+            }
+        }
+
+        function generateAnalytics() {
+            // Age distribution chart
+            const ages = patientRecords.map(record => parseInt(record.age));
+            const ageRanges = {
+                '0-20': 0,
+                '21-40': 0,
+                '41-60': 0,
+                '60+': 0
+            };
+
+            ages.forEach(age => {
+                if (age <= 20) ageRanges['0-20']++;
+                else if (age <= 40) ageRanges['21-40']++;
+                else if (age <= 60) ageRanges['41-60']++;
+                else ageRanges['60+']++;
+            });
+
+            new Chart(document.getElementById('ageChart'), {
+                type: 'pie',
+                data: {
+                    labels: Object.keys(ageRanges),
+                    datasets: [{
+                        data: Object.values(ageRanges),
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+
+            // Vital signs trends
+            const lastTenRecords = patientRecords.slice(-10).reverse();
+            new Chart(document.getElementById('vitalsChart'), {
+                type: 'line',
+                data: {
+                    labels: lastTenRecords.map(record => new Date(record.timestamp).toLocaleDateString()),
+                    datasets: [{
+                        label: 'Blood Pressure',
+                        data: lastTenRecords.map(record => record.bp),
+                        borderColor: '#FF6384',
+                        fill: false
+                    }, {
+                        label: 'SpO2',
+                        data: lastTenRecords.map(record => record.spo2),
+                        borderColor: '#36A2EB',
+                        fill: false
+                    }, {
+                        label: 'Temperature',
+                        data: lastTenRecords.map(record => record.temperature),
+                        borderColor: '#FFCE56',
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+
+            // Patient visits timeline
+            const visitsByDate = {};
+            patientRecords.forEach(record => {
+                const date = new Date(record.timestamp).toLocaleDateString();
+                visitsByDate[date] = (visitsByDate[date] || 0) + 1;
+            });
+
+            new Chart(document.getElementById('timelineChart'), {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(visitsByDate),
+                    datasets: [{
+                        label: 'Patient Visits',
+                        data: Object.values(visitsByDate),
+                        backgroundColor: '#4BC0C0'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Update the initial load section
+        updateStats();
+        displayRecords();
+        generateAnalytics();
+    </script>
+</body>
+</html>
